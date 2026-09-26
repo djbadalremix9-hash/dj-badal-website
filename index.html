@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Badal AI Video Generator</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#080b12;color:white;min-height:100vh}
+header{padding:20px;text-align:center;background:#101522;border-bottom:1px solid #252c3a}
+.logo{font-size:25px;font-weight:bold}.logo span{color:#7c5cff}
+.container{width:94%;max-width:900px;margin:25px auto}
+.card{background:#111722;border:1px solid #252d3d;border-radius:18px;padding:20px;margin-bottom:18px}
+h2{margin-bottom:15px}label{display:block;margin:14px 0 7px;color:#b9c1d0}
+textarea,select{width:100%;padding:14px;border-radius:12px;border:1px solid #30394b;background:#080d16;color:white;outline:none;font-size:15px}
+textarea{height:150px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{border:0;border-radius:12px;padding:15px;width:100%;margin-top:18px;font-size:16px;font-weight:bold;cursor:pointer}
+.generate{background:#7c5cff;color:white}.generate:disabled{opacity:.5}
+.download{background:#20a464;color:white}.clear{background:#242c3b;color:white}
+#status{display:none;margin-top:18px;padding:15px;border-radius:12px;background:#0b1220;border:1px solid #303b50}
+.loader{width:25px;height:25px;border:3px solid #333b4b;border-top:3px solid #7c5cff;border-radius:50%;animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:10px}
+@keyframes spin{to{transform:rotate(360deg)}}#result{display:none}
+video{width:100%;border-radius:15px;background:#000;max-height:500px}
+.info{color:#9da7b8;line-height:1.6;font-size:14px}
+.example{margin-top:10px;padding:12px;background:#0b1019;border-radius:10px;color:#b9c1d0;cursor:pointer}
+footer{text-align:center;padding:25px;color:#737d90;font-size:13px}
+@media(max-width:600px){.row{grid-template-columns:1fr}.card{padding:15px}.logo{font-size:21px}}
+</style>
+</head>
+<body>
+<header><div class="logo">🎬 <span>Badal</span> AI Video Generator</div></header>
+<div class="container">
+<div class="card">
+<h2>🎥 AI Video बनाओ</h2>
+<p class="info">अपना video idea लिखो और Generate Video दबाओ।</p>
+<label>Video Prompt</label>
+<textarea id="prompt" placeholder="जैसे: एक लड़का बारिश में अपनी माँ से मिलने घर लौटता है, realistic emotional Indian cinematic scene"></textarea>
+<div class="example" onclick="useExample()">💡 Example Prompt</div>
+<div class="row">
+<div><label>Aspect Ratio</label><select id="ratio"><option value="16:9">16:9 — YouTube</option><option value="9:16">9:16 — Shorts/Reels</option><option value="1:1">1:1 — Square</option></select></div>
+<div><label>Quality</label><select id="quality"><option value="standard">Standard</option><option value="hd">HD</option></select></div>
+</div>
+<label>Duration</label>
+<select id="duration"><option value="5">5 seconds</option><option value="10">10 seconds</option><option value="15">15 seconds</option></select>
+<button id="generateBtn" class="generate" onclick="generateVideo()">✨ Generate Video</button>
+<div id="status"><span class="loader"></span><span id="statusText">Video तैयार हो रही है...</span></div>
+</div>
+<div class="card" id="result"><h2>🎬 आपका Video</h2><video id="videoPlayer" controls></video><button class="download" onclick="downloadVideo()">⬇️ Download Video</button><button class="clear" onclick="resetGenerator()">🔄 New Video</button></div>
+<div class="card"><h2>ℹ️ कैसे इस्तेमाल करें?</h2><p class="info">1. Prompt लिखो।<br><br>2. Ratio चुनो।<br><br>3. Duration चुनो।<br><br>4. Generate Video दबाओ।<br><br>5. Video बनने पर Preview और Download करो।</p></div>
+</div>
+<footer>© 2026 Badal AI Video Generator</footer>
+<script>
+const API_URL = "http://127.0.0.1:8000/generate";
+function useExample(){document.getElementById("prompt").value="A young Indian boy returns home in the rain and meets his mother, realistic emotional cinematic Indian film, natural acting, realistic lighting, 4K";}
+async function generateVideo(){
+ const prompt=document.getElementById("prompt").value.trim(),ratio=document.getElementById("ratio").value,quality=document.getElementById("quality").value,duration=document.getElementById("duration").value;
+ if(!prompt){alert("पहले Video Prompt लिखो।");return;}
+ const btn=document.getElementById("generateBtn"),status=document.getElementById("status"),statusText=document.getElementById("statusText");
+ btn.disabled=true;status.style.display="block";statusText.innerText="AI video बनाई जा रही है...";
+ try{
+  const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt,ratio,quality,duration})});
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error||"Video generation failed");
+  document.getElementById("videoPlayer").src=data.video_url;document.getElementById("result").style.display="block";status.style.display="none";
+ }catch(error){status.style.display="none";alert("Video नहीं बन सकी:\n\n"+error.message);}
+ finally{btn.disabled=false;}
+}
+function downloadVideo(){const video=document.getElementById("videoPlayer");if(!video.src){alert("अभी कोई video नहीं है।");return;}const a=document.createElement("a");a.href=video.src;a.download="badal-ai-video.mp4";document.body.appendChild(a);a.click();a.remove();}
+function resetGenerator(){document.getElementById("prompt").value="";document.getElementById("result").style.display="none";document.getElementById("videoPlayer").src="";}
+</script>
+</body>
+</html>
