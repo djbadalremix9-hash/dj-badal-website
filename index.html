@@ -1,285 +1,185 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Badal AI Video Generator</title>
+<title>Badal AI Video Generator</title>
 
-  <script src="https://js.puter.com/v2/"></script>
+<script src="https://js.puter.com/v2/"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+*{
+  box-sizing:border-box;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #080b14;
-      color: white;
-      padding: 20px;
-    }
+body{
+  margin:0;
+  min-height:100vh;
+  background:#080b14;
+  color:white;
+  font-family:Arial,sans-serif;
+  padding:20px;
+}
 
-    .container {
-      width: 100%;
-      max-width: 700px;
-      margin: auto;
-    }
+.app{
+  max-width:650px;
+  margin:auto;
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 8px;
-      font-size: 30px;
-    }
+h1{
+  text-align:center;
+  font-size:28px;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #9ca3af;
-      margin-bottom: 25px;
-    }
+.subtitle{
+  text-align:center;
+  color:#9ca3af;
+  margin-bottom:25px;
+}
 
-    .card {
-      background: #111827;
-      border: 1px solid #263247;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
+.card{
+  background:#111827;
+  border:1px solid #263247;
+  border-radius:18px;
+  padding:20px;
+}
 
-    label {
-      display: block;
-      margin: 15px 0 7px;
-      font-weight: bold;
-    }
+label{
+  display:block;
+  margin:15px 0 7px;
+  font-weight:bold;
+}
 
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid #374151;
-      background: #0b1220;
-      color: white;
-      border-radius: 10px;
-      padding: 13px;
-      font-size: 15px;
-      outline: none;
-    }
+textarea,
+select{
+  width:100%;
+  background:#080f1d;
+  color:white;
+  border:1px solid #374151;
+  border-radius:10px;
+  padding:13px;
+  font-size:15px;
+}
 
-    textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
+textarea{
+  height:140px;
+  resize:vertical;
+}
 
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+button{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:15px;
+  margin-top:15px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    button {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 18px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+#generate{
+  background:#2563eb;
+  color:white;
+}
 
-    #generateBtn {
-      background: #2563eb;
-      color: white;
-    }
+#generate:disabled{
+  background:#4b5563;
+}
 
-    #generateBtn:disabled {
-      background: #374151;
-      cursor: not-allowed;
-    }
+#status{
+  display:none;
+  margin-top:18px;
+  padding:13px;
+  background:#080f1d;
+  border-radius:10px;
+  text-align:center;
+}
 
-    #testBtn {
-      background: #374151;
-      color: white;
-    }
+#videoArea{
+  display:none;
+  margin-top:25px;
+}
 
-    #resetBtn {
-      background: #1f2937;
-      color: #d1d5db;
-    }
+video{
+  width:100%;
+  border-radius:14px;
+  background:#000;
+}
 
-    #status {
-      margin-top: 18px;
-      padding: 12px;
-      border-radius: 10px;
-      background: #0b1220;
-      color: #d1d5db;
-      text-align: center;
-      display: none;
-    }
+#download{
+  background:#16a34a;
+  color:white;
+}
 
-    #videoBox {
-      display: none;
-      margin-top: 25px;
-    }
-
-    video {
-      width: 100%;
-      max-height: 500px;
-      border-radius: 14px;
-      background: black;
-    }
-
-    #downloadBtn {
-      background: #16a34a;
-      color: white;
-    }
-
-    .note {
-      margin-top: 18px;
-      font-size: 12px;
-      color: #9ca3af;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    @media (max-width: 500px) {
-      .row {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 25px;
-      }
-    }
-  </style>
+.example{
+  color:#9ca3af;
+  font-size:13px;
+  margin-top:10px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-  <h1>🎬 Badal AI Video Generator</h1>
+<h1>🎬 Badal AI Video Generator</h1>
 
-  <div class="subtitle">
-    Text से AI Video बनाएं
-  </div>
+<div class="subtitle">
+Text से AI Video बनाएं
+</div>
 
-  <div class="card">
+<div class="card">
 
-    <label for="prompt">Video Prompt</label>
+<label>Video Prompt</label>
 
-    <textarea
-      id="prompt"
-      placeholder="Example: A cinematic drone shot flying over a beautiful village at sunset..."
-    ></textarea>
+<textarea id="prompt"
+placeholder="Example: A cute little boy walking through a beautiful village at sunset, cinematic 3D cartoon style"></textarea>
 
-    <div class="row">
+<div class="example">
+English prompt लिखने पर बेहतर result मिल सकता है।
+</div>
 
-      <div>
-        <label for="ratio">Aspect Ratio</label>
+<label>Aspect Ratio</label>
 
-        <select id="ratio">
-          <option value="16:9">16:9 Landscape</option>
-          <option value="9:16">9:16 Portrait</option>
-          <option value="1:1">1:1 Square</option>
-        </select>
-      </div>
+<select id="ratio">
+<option value="16:9">16:9 Landscape</option>
+<option value="9:16">9:16 Portrait</option>
+<option value="1:1">1:1 Square</option>
+</select>
 
-      <div>
-        <label for="quality">Quality</label>
+<label>Duration</label>
 
-        <select id="quality">
-          <option value="720p">Standard 720p</option>
-          <option value="1080p">HD 1080p</option>
-        </select>
-      </div>
+<select id="duration">
+<option value="4">4 Seconds</option>
+<option value="6">6 Seconds</option>
+<option value="8">8 Seconds</option>
+</select>
 
-    </div>
+<button id="generate" onclick="createVideo()">
+🎬 Generate AI Video
+</button>
 
-    <label for="duration">Duration</label>
+<div id="status"></div>
 
-    <select id="duration">
-      <option value="4">4 Seconds</option>
-      <option value="6">6 Seconds</option>
-      <option value="8">8 Seconds</option>
-    </select>
+<div id="videoArea">
 
-    <button id="generateBtn" onclick="generateVideo(false)">
-      🎬 Generate Real AI Video
-    </button>
+<video id="player" controls playsinline></video>
 
-    <button id="testBtn" onclick="generateVideo(true)">
-      🧪 Test Video
-    </button>
+<button id="download" onclick="downloadVideo()">
+⬇️ Download Video
+</button>
 
-    <button id="resetBtn" onclick="resetApp()">
-      🔄 Reset
-    </button>
+</div>
 
-    <div id="status"></div>
-
-    <div id="videoBox">
-
-      <video
-        id="videoPlayer"
-        controls
-        playsinline>
-      </video>
-
-      <button id="downloadBtn" onclick="downloadVideo()">
-        ⬇️ Download Video
-      </button>
-
-    </div>
-
-    <div class="note">
-      Test Video development/checking के लिए है।
-      Real AI generation model के अनुसार credits इस्तेमाल कर सकती है।
-    </div>
-
-  </div>
+</div>
 
 </div>
 
 <script>
 
-let currentVideo = null;
-
-
-/* =========================
-   VIDEO SIZE
-========================= */
-
-function getVideoSize(ratio, quality) {
-
-  if (ratio === "9:16") {
-
-    return quality === "1080p"
-      ? "1080x1920"
-      : "720x1280";
-
-  }
-
-  if (ratio === "1:1") {
-
-    return quality === "1080p"
-      ? "1080x1080"
-      : "720x720";
-
-  }
-
-  return quality === "1080p"
-    ? "1920x1080"
-    : "1280x720";
-}
-
-
-/* =========================
-   GENERATE VIDEO
-========================= */
-
-async function generateVideo(testMode) {
+async function createVideo(){
 
   const prompt =
     document.getElementById("prompt").value.trim();
@@ -287,31 +187,23 @@ async function generateVideo(testMode) {
   const ratio =
     document.getElementById("ratio").value;
 
-  const quality =
-    document.getElementById("quality").value;
-
   const duration =
     Number(document.getElementById("duration").value);
 
-  const generateBtn =
-    document.getElementById("generateBtn");
-
-  const testBtn =
-    document.getElementById("testBtn");
+  const button =
+    document.getElementById("generate");
 
   const status =
     document.getElementById("status");
 
-  const videoBox =
-    document.getElementById("videoBox");
+  const videoArea =
+    document.getElementById("videoArea");
 
-  const videoPlayer =
-    document.getElementById("videoPlayer");
+  const player =
+    document.getElementById("player");
 
 
-  /* Prompt check */
-
-  if (!prompt) {
+  if(!prompt){
 
     alert("पहले Video Prompt लिखें।");
 
@@ -319,70 +211,145 @@ async function generateVideo(testMode) {
   }
 
 
-  /* Buttons disable */
+  button.disabled = true;
 
-  generateBtn.disabled = true;
-  testBtn.disabled = true;
-
-
-  videoBox.style.display = "none";
+  videoArea.style.display = "none";
 
   status.style.display = "block";
 
-
-  status.innerText = testMode
-    ? "🧪 Test video तैयार हो रही है..."
-    : "⏳ AI Video generate हो रही है...";
+  status.innerText =
+    "⏳ AI Video generate हो रही है... कृपया इंतजार करें।";
 
 
-  try {
+  try{
 
-    let video;
+    let size = "1280x720";
 
 
-    /* =========================
-       TEST MODE
-    ========================= */
+    if(ratio === "9:16"){
+      size = "720x1280";
+    }
 
-    if (testMode) {
-
-      video = await puter.ai.txt2vid(
-        prompt,
-        true
-      );
-
+    if(ratio === "1:1"){
+      size = "720x720";
     }
 
 
-    /* =========================
-       REAL AI VIDEO
-    ========================= */
+    /*
+      Puter AI Video
+    */
 
-    else {
+    const video = await puter.ai.txt2vid(
 
-      const size =
-        getVideoSize(
-          ratio,
-          quality
-        );
+      prompt,
 
+      {
+        model: "vidu/vidu-q3-turbo",
+        seconds: duration,
+        size: size
+      }
 
-      video = await puter.ai.txt2vid(
-        prompt,
-        {
-          model: "veo-3.1-lite",
-          seconds: duration,
-          size: size
-        }
-      );
-
-    }
+    );
 
 
-    /* Video check */
-
-    if (!video) {
+    if(!video){
 
       throw new Error(
-        "Video response नहीं मिला।"
+        "AI ने कोई video response नहीं दिया।"
       );
+
+    }
+
+
+    /*
+      Puter video element
+    */
+
+    if(video.src){
+
+      player.src = video.src;
+
+    }
+
+    else if(video.url){
+
+      player.src = video.url;
+
+    }
+
+    else{
+
+      throw new Error(
+        "Video URL नहीं मिला।"
+      );
+
+    }
+
+
+    player.load();
+
+    videoArea.style.display = "block";
+
+    status.innerText =
+      "✅ Video तैयार है!";
+
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    status.innerText =
+      "❌ Video generate नहीं हुई।";
+
+    alert(
+      "Video Generate Error:\n\n" +
+      (error?.message || error)
+    );
+
+  }
+
+  finally{
+
+    button.disabled = false;
+
+  }
+
+}
+
+
+function downloadVideo(){
+
+  const player =
+    document.getElementById("player");
+
+  if(!player.src){
+
+    alert("पहले video generate करें।");
+
+    return;
+  }
+
+
+  const link =
+    document.createElement("a");
+
+  link.href =
+    player.src;
+
+  link.download =
+    "badal-ai-video.mp4";
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  link.remove();
+
+}
+
+</script>
+
+</body>
+</html>
