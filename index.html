@@ -275,8 +275,117 @@ function getVideoSize(ratio, quality) {
 
 
 /* Video Generate */
+
 async function generateVideo(testMode) {
 
+  const prompt = document.getElementById("prompt").value.trim();
+  const ratio = document.getElementById("ratio").value;
+  const quality = document.getElementById("quality").value;
+  const duration = Number(document.getElementById("duration").value);
+
+  const generateBtn = document.getElementById("generateBtn");
+  const testBtn = document.getElementById("testBtn");
+  const status = document.getElementById("status");
+  const videoBox = document.getElementById("videoBox");
+  const videoPlayer = document.getElementById("videoPlayer");
+
+  if (!prompt) {
+    alert("पहले Video Prompt लिखें।");
+    return;
+  }
+
+  generateBtn.disabled = true;
+  testBtn.disabled = true;
+
+  videoBox.style.display = "none";
+  status.style.display = "block";
+  status.innerText = testMode
+    ? "🧪 Test video तैयार हो रही है..."
+    : "⏳ AI Video generate हो रही है...";
+
+  try {
+
+    let video;
+
+    /* TEST MODE */
+    if (testMode) {
+
+      video = await puter.ai.txt2vid(
+        prompt,
+        true
+      );
+
+    }
+
+    /* REAL AI VIDEO */
+    else {
+
+      let size = "1280x720";
+
+      if (ratio === "9:16") {
+        size = quality === "1080p"
+          ? "1080x1920"
+          : "720x1280";
+      }
+
+      else if (ratio === "1:1") {
+        size = quality === "1080p"
+          ? "1080x1080"
+          : "720x720";
+      }
+
+      else {
+        size = quality === "1080p"
+          ? "1920x1080"
+          : "1280x720";
+      }
+
+      video = await puter.ai.txt2vid(
+        prompt,
+        {
+          model: "vidu/vidu-q3-turbo",
+          seconds: duration,
+          size: size
+        }
+      );
+
+    }
+
+    /*
+      Puter पहले से तैयार HTMLVideoElement देता है।
+      इसलिए उसका src अलग से set करने की जरूरत नहीं।
+    */
+
+    videoPlayer.src = video.src;
+
+    videoPlayer.controls = true;
+    videoPlayer.load();
+
+    videoBox.style.display = "block";
+
+    status.innerText = testMode
+      ? "✅ Test video तैयार है!"
+      : "✅ AI Video तैयार है!";
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    status.innerText =
+      "❌ Video नहीं बन सकी: " +
+      (error?.message || error);
+
+  }
+
+  finally {
+
+    generateBtn.disabled = false;
+    testBtn.disabled = false;
+
+  }
+}
   const prompt = document.getElementById("prompt").value.trim();
 
   const ratio = document.getElementById("ratio").value;
