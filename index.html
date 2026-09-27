@@ -1,126 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Badal AI Video</title>
-
+  <title>Badal AI Image</title>
   <script src="https://js.puter.com/v2/"></script>
-
   <style>
-    body {
-      background: #080b14;
-      color: white;
-      font-family: Arial;
-      padding: 20px;
-      text-align: center;
-    }
-
-    textarea {
-      width: 95%;
-      max-width: 600px;
-      height: 130px;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-
-    button {
-      width: 95%;
-      max-width: 600px;
-      padding: 15px;
-      margin-top: 15px;
-      border: 0;
-      border-radius: 10px;
-      background: #2563eb;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    #status {
-      margin: 20px;
-    }
-
-    video {
-      width: 95%;
-      max-width: 600px;
-      margin-top: 20px;
-      border-radius: 12px;
-    }
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #080b14; color: white; }
+    input { width: 80%; max-width: 400px; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #444; }
+    button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    #result img { max-width: 90%; border-radius: 8px; margin-top: 20px; }
   </style>
 </head>
-
 <body>
 
-<h1>🎬 Badal AI Video Generator</h1>
+  <h2>Badal AI Image Generator</h2>
+  <input type="text" id="promptInput" placeholder="जैसे: Flying car in Mumbai...">
+  <br>
+  <button onclick="generateImage()">फोटो बनाएं</button>
 
-<textarea id="prompt"
-placeholder="A cute little boy walking in a beautiful village at sunset, cinematic 3D cartoon style"></textarea>
+  <p id="status"></p>
+  <div id="result"></div>
 
-<br>
+  <script>
+    async function generateImage() {
+      const prompt = document.getElementById('promptInput').value.trim();
+      const status = document.getElementById('status');
+      const result = document.getElementById('result');
 
-<button onclick="generateVideo()">
-🎬 Generate Video
-</button>
+      if (!prompt) return alert("कृपया कुछ लिखें!");
 
-<div id="status"></div>
+      status.innerText = "फोटो बन रही है, कृपया इंतज़ार करें...";
+      result.innerHTML = "";
 
-<div id="result"></div>
-
-<script>
-
-async function generateVideo() {
-
-  const prompt =
-    document.getElementById("prompt").value.trim();
-
-  const status =
-    document.getElementById("status");
-
-  const result =
-    document.getElementById("result");
-
-  if (!prompt) {
-    alert("पहले prompt लिखें");
-    return;
-  }
-
-  status.innerText =
-    "⏳ Video बन रही है... थोड़ा इंतजार करें...";
-
-  result.innerHTML = "";
-
-  try {
-
-    const video =
-      await puter.ai.txt2vid(
-        prompt,
-        {
-          model: "vidu/vidu-q3-turbo"
-        }
-      );
-
-    result.appendChild(video);
-
-    video.controls = true;
-
-    status.innerText =
-      "✅ Video तैयार है!";
-
-  } catch (error) {
-
-    console.error(error);
-
-    status.innerText =
-      "❌ Error: " +
-      (error.message || error);
-
-  }
-
-}
-
-</script>
-
+      try {
+        const imageElement = await puter.ai.txt2img(prompt);
+        result.appendChild(imageElement);
+        status.innerText = "तैयार!";
+      } catch (err) {
+        status.innerText = "त्रुटि: फोटो नहीं बन पाई।";
+      }
+    }
+  </script>
 </body>
 </html>
