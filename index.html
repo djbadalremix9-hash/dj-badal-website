@@ -6,7 +6,6 @@
 
   <title>Badal AI Video Generator</title>
 
-  <!-- Puter.js -->
   <script src="https://js.puter.com/v2/"></script>
 
   <style>
@@ -211,7 +210,7 @@
     </button>
 
     <button id="testBtn" onclick="generateVideo(true)">
-      🧪 Test Video (No Credits)
+      🧪 Test Video
     </button>
 
     <button id="resetBtn" onclick="resetApp()">
@@ -222,7 +221,11 @@
 
     <div id="videoBox">
 
-      <video id="videoPlayer" controls playsinline></video>
+      <video
+        id="videoPlayer"
+        controls
+        playsinline>
+      </video>
 
       <button id="downloadBtn" onclick="downloadVideo()">
         ⬇️ Download Video
@@ -231,170 +234,64 @@
     </div>
 
     <div class="note">
-      Test Video development/checking के लिए है। Real AI generation
-      model के अनुसार credits इस्तेमाल कर सकती है।
+      Test Video development/checking के लिए है।
+      Real AI generation model के अनुसार credits इस्तेमाल कर सकती है।
     </div>
 
   </div>
 
 </div>
 
-
 <script>
 
 let currentVideo = null;
 
 
-/* Aspect ratio को video size में बदलना */
+/* =========================
+   VIDEO SIZE
+========================= */
+
 function getVideoSize(ratio, quality) {
 
   if (ratio === "9:16") {
 
-    if (quality === "1080p") {
-      return "1080x1920";
-    }
+    return quality === "1080p"
+      ? "1080x1920"
+      : "720x1280";
 
-    return "720x1280";
   }
 
   if (ratio === "1:1") {
 
-    if (quality === "1080p") {
-      return "1080x1080";
-    }
+    return quality === "1080p"
+      ? "1080x1080"
+      : "720x720";
 
-    return "720x720";
   }
 
-  if (quality === "1080p") {
-    return "1920x1080";
-  }
-
-  return "1280x720";
+  return quality === "1080p"
+    ? "1920x1080"
+    : "1280x720";
 }
 
 
-/* Video Generate */
+/* =========================
+   GENERATE VIDEO
+========================= */
 
 async function generateVideo(testMode) {
 
-  const prompt = document.getElementById("prompt").value.trim();
-  const ratio = document.getElementById("ratio").value;
-  const quality = document.getElementById("quality").value;
-  const duration = Number(document.getElementById("duration").value);
+  const prompt =
+    document.getElementById("prompt").value.trim();
 
-  const generateBtn = document.getElementById("generateBtn");
-  const testBtn = document.getElementById("testBtn");
-  const status = document.getElementById("status");
-  const videoBox = document.getElementById("videoBox");
-  const videoPlayer = document.getElementById("videoPlayer");
+  const ratio =
+    document.getElementById("ratio").value;
 
-  if (!prompt) {
-    alert("पहले Video Prompt लिखें।");
-    return;
-  }
+  const quality =
+    document.getElementById("quality").value;
 
-  generateBtn.disabled = true;
-  testBtn.disabled = true;
-
-  videoBox.style.display = "none";
-  status.style.display = "block";
-  status.innerText = testMode
-    ? "🧪 Test video तैयार हो रही है..."
-    : "⏳ AI Video generate हो रही है...";
-
-  try {
-
-    let video;
-
-    /* TEST MODE */
-    if (testMode) {
-
-      video = await puter.ai.txt2vid(
-        prompt,
-        true
-      );
-
-    }
-
-    /* REAL AI VIDEO */
-    else {
-
-      let size = "1280x720";
-
-      if (ratio === "9:16") {
-        size = quality === "1080p"
-          ? "1080x1920"
-          : "720x1280";
-      }
-
-      else if (ratio === "1:1") {
-        size = quality === "1080p"
-          ? "1080x1080"
-          : "720x720";
-      }
-
-      else {
-        size = quality === "1080p"
-          ? "1920x1080"
-          : "1280x720";
-      }
-
-      video = await puter.ai.txt2vid(
-        prompt,
-        {
-          model: "vidu/vidu-q3-turbo",
-          seconds: duration,
-          size: size
-        }
-      );
-
-    }
-
-    /*
-      Puter पहले से तैयार HTMLVideoElement देता है।
-      इसलिए उसका src अलग से set करने की जरूरत नहीं।
-    */
-
-    videoPlayer.src = video.src;
-
-    videoPlayer.controls = true;
-    videoPlayer.load();
-
-    videoBox.style.display = "block";
-
-    status.innerText = testMode
-      ? "✅ Test video तैयार है!"
-      : "✅ AI Video तैयार है!";
-
-  }
-
-  catch (error) {
-
-    console.error(error);
-
-    status.innerText =
-      "❌ Video नहीं बन सकी: " +
-      (error?.message || error);
-
-  }
-
-  finally {
-
-    generateBtn.disabled = false;
-    testBtn.disabled = false;
-
-  }
-}
-  const prompt = document.getElementById("prompt").value.trim();
-
-  const ratio = document.getElementById("ratio").value;
-
-  const quality = document.getElementById("quality").value;
-
-  const duration = Number(
-    document.getElementById("duration").value
-  );
+  const duration =
+    Number(document.getElementById("duration").value);
 
   const generateBtn =
     document.getElementById("generateBtn");
@@ -412,6 +309,8 @@ async function generateVideo(testMode) {
     document.getElementById("videoPlayer");
 
 
+  /* Prompt check */
+
   if (!prompt) {
 
     alert("पहले Video Prompt लिखें।");
@@ -420,53 +319,53 @@ async function generateVideo(testMode) {
   }
 
 
-  generateBtn.disabled = true;
+  /* Buttons disable */
 
+  generateBtn.disabled = true;
   testBtn.disabled = true;
+
 
   videoBox.style.display = "none";
 
   status.style.display = "block";
 
 
-  if (testMode) {
-
-    status.innerText =
-      "🧪 Test video तैयार हो रही है...";
-
-  } else {
-
-    status.innerText =
-      "⏳ AI Video generate हो रही है... इसमें कुछ समय लग सकता है।";
-  }
+  status.innerText = testMode
+    ? "🧪 Test video तैयार हो रही है..."
+    : "⏳ AI Video generate हो रही है...";
 
 
   try {
 
-    const size =
-      getVideoSize(ratio, quality);
-
-
     let video;
 
 
-    if (testMode) {
+    /* =========================
+       TEST MODE
+    ========================= */
 
-      /*
-        Test mode:
-        credits खर्च नहीं होते
-      */
+    if (testMode) {
 
       video = await puter.ai.txt2vid(
         prompt,
         true
       );
 
-    } else {
+    }
 
-      /*
-        Real AI video
-      */
+
+    /* =========================
+       REAL AI VIDEO
+    ========================= */
+
+    else {
+
+      const size =
+        getVideoSize(
+          ratio,
+          quality
+        );
+
 
       video = await puter.ai.txt2vid(
         prompt,
@@ -476,106 +375,14 @@ async function generateVideo(testMode) {
           size: size
         }
       );
+
     }
 
 
-    currentVideo = video;
+    /* Video check */
 
+    if (!video) {
 
-    /*
-      Puter ready-to-play video element देता है।
-    */
-
-    videoPlayer.src = video.src;
-
-
-    videoBox.style.display = "block";
-
-
-    status.innerText =
-      testMode
-      ? "✅ Test video तैयार है!"
-      : "✅ AI Video तैयार है!";
-
-
-    videoPlayer.load();
-
-
-  } catch (error) {
-
-    console.error(error);
-
-
-    status.innerText =
-      "❌ Video नहीं बन सकी: " +
-      (error?.message || error);
-
-
-    alert(
-      "Video generation में error आया।\n\n" +
-      (error?.message || error)
-    );
-
-
-  } finally {
-
-    generateBtn.disabled = false;
-
-    testBtn.disabled = false;
-  }
-
-}
-
-
-/* Download */
-function downloadVideo() {
-
-  const videoPlayer =
-    document.getElementById("videoPlayer");
-
-  if (!videoPlayer.src) {
-
-    alert("पहले video generate करें।");
-
-    return;
-  }
-
-
-  const a =
-    document.createElement("a");
-
-  a.href =
-    videoPlayer.src;
-
-  a.download =
-    "badal-ai-video.mp4";
-
-  document.body.appendChild(a);
-
-  a.click();
-
-  a.remove();
-}
-
-
-/* Reset */
-function resetApp() {
-
-  document.getElementById("prompt").value = "";
-
-  document.getElementById("videoBox").style.display =
-    "none";
-
-  document.getElementById("status").style.display =
-    "none";
-
-  document.getElementById("videoPlayer").src =
-    "";
-
-  currentVideo = null;
-}
-
-</script>
-
-</body>
-</html>
+      throw new Error(
+        "Video response नहीं मिला।"
+      );
