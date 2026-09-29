@@ -1,46 +1,334 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Badal AI Image</title>
-  <script src="https://js.puter.com/v2/"></script>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #080b14; color: white; }
-    input { width: 80%; max-width: 400px; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #444; }
-    button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    #result img { max-width: 90%; border-radius: 8px; margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BADAL OFFICIAL</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  background:#050509;
+  color:white;
+  overflow-x:hidden;
+}
+
+header{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:25px;
+  background:
+    radial-gradient(circle at top,#38208f 0,#090617 35%,#050509 75%);
+}
+
+.logo{
+  font-size:18px;
+  letter-spacing:4px;
+  color:#00eaff;
+  margin-bottom:20px;
+}
+
+h1{
+  font-size:clamp(48px,15vw,100px);
+  font-weight:900;
+  letter-spacing:5px;
+  text-shadow:0 0 15px #00eaff,0 0 40px #7b00ff;
+}
+
+.hero-text{
+  margin:20px 0;
+  color:#cfcfe8;
+  font-size:18px;
+  max-width:600px;
+  line-height:1.6;
+}
+
+.buttons{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.btn{
+  border:none;
+  padding:14px 24px;
+  border-radius:30px;
+  font-weight:bold;
+  text-decoration:none;
+  cursor:pointer;
+  color:white;
+  background:linear-gradient(90deg,#00c6ff,#7b00ff);
+  box-shadow:0 0 20px #5b00ff66;
+}
+
+.btn:hover{
+  transform:scale(1.05);
+}
+
+section{
+  padding:70px 20px;
+  max-width:1100px;
+  margin:auto;
+}
+
+.title{
+  text-align:center;
+  font-size:35px;
+  margin-bottom:35px;
+  color:#00eaff;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:linear-gradient(145deg,#11111d,#09090e);
+  border:1px solid #292943;
+  border-radius:20px;
+  padding:25px;
+  text-align:center;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  border-color:#00eaff;
+  box-shadow:0 0 25px #00eaff33;
+}
+
+.icon{
+  font-size:50px;
+  margin-bottom:15px;
+}
+
+.card h3{
+  margin-bottom:10px;
+  font-size:23px;
+}
+
+.card p{
+  color:#aaa;
+  line-height:1.5;
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:15px;
+}
+
+.gallery div{
+  height:170px;
+  border-radius:18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:22px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#17172b,#3b0870);
+  border:1px solid #34345c;
+}
+
+.video-box{
+  background:#10101a;
+  border:1px solid #292943;
+  border-radius:20px;
+  padding:25px;
+  text-align:center;
+}
+
+textarea{
+  width:100%;
+  min-height:130px;
+  margin:15px 0;
+  padding:15px;
+  border-radius:15px;
+  border:1px solid #333;
+  background:#07070d;
+  color:white;
+  resize:vertical;
+}
+
+#result{
+  margin-top:20px;
+  color:#00eaff;
+  min-height:30px;
+}
+
+.contact{
+  text-align:center;
+  background:linear-gradient(135deg,#110b25,#07151d);
+  border-radius:25px;
+  padding:40px 20px;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  color:#777;
+  border-top:1px solid #222;
+}
+
+@media(max-width:600px){
+  h1{
+    font-size:52px;
+  }
+
+  section{
+    padding:55px 15px;
+  }
+
+  .title{
+    font-size:30px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <h2>Badal AI Image Generator</h2>
-  <input type="text" id="promptInput" placeholder="जैसे: Flying car in Mumbai...">
-  <br>
-  <button onclick="generateImage()">फोटो बनाएं</button>
+<header>
+  <div class="logo">WELCOME TO</div>
 
-  <p id="status"></p>
-  <div id="result"></div>
+  <h1>BADAL</h1>
 
-  <script>
-    async function generateImage() {
-      const prompt = document.getElementById('promptInput').value.trim();
-      const status = document.getElementById('status');
-      const result = document.getElementById('result');
+  <p class="hero-text">
+    🎮 GAMING • 🎨 POSTER • 🎬 VIDEO • 🔥 CREATIVE
+    <br>
+    यह है Badal Official की अपनी डिजिटल दुनिया।
+  </p>
 
-      if (!prompt) return alert("कृपया कुछ लिखें!");
+  <div class="buttons">
+    <a href="#gaming" class="btn">🎮 GAMING</a>
+    <a href="#poster" class="btn">🖼️ POSTER</a>
+    <a href="#video" class="btn">🎬 VIDEO</a>
+  </div>
+</header>
 
-      status.innerText = "फोटो बन रही है, कृपया इंतज़ार करें...";
-      result.innerHTML = "";
 
-      try {
-        const imageElement = await puter.ai.txt2img(prompt);
-        result.appendChild(imageElement);
-        status.innerText = "तैयार!";
-      } catch (err) {
-        status.innerText = "त्रुटि: फोटो नहीं बन पाई।";
-      }
-    }
-  </script>
+<section id="gaming">
+  <h2 class="title">🎮 GAMING ZONE</h2>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="icon">🔥</div>
+      <h3>FREE FIRE</h3>
+      <p>Gaming content, tips और entertainment के लिए अपना सेक्शन।</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🏆</div>
+      <h3>TOURNAMENT</h3>
+      <p>अपने gaming events और tournament की जानकारी यहाँ डाल सकते हो।</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🎯</div>
+      <h3>HEADSHOT</h3>
+      <p>अपने gameplay और highlights को यहाँ showcase करो।</p>
+    </div>
+
+  </div>
+</section>
+
+
+<section id="poster">
+  <h2 class="title">🖼️ POSTER GALLERY</h2>
+
+  <div class="gallery">
+    <div>BADAL</div>
+    <div>🔥 EDIT</div>
+    <div>🎨 POSTER</div>
+    <div>⚡ DESIGN</div>
+    <div>👑 OFFICIAL</div>
+    <div>💜 CREATIVE</div>
+  </div>
+</section>
+
+
+<section id="video">
+  <h2 class="title">🎬 AI VIDEO IDEA</h2>
+
+  <div class="video-box">
+
+    <p>
+      नीचे अपनी कहानी या वीडियो का Prompt लिखो।
+    </p>
+
+    <textarea id="prompt"
+      placeholder="उदाहरण: एक लड़का बारिश में बाइक से अपने गांव जा रहा है..."></textarea>
+
+    <button class="btn" onclick="generateIdea()">
+      ✨ GENERATE
+    </button>
+
+    <div id="result"></div>
+
+  </div>
+</section>
+
+
+<section>
+  <div class="contact">
+
+    <h2 class="title">👑 BADAL OFFICIAL</h2>
+
+    <p style="line-height:1.8;color:#bbb;">
+      Gaming • Editing • Posters • Creative Videos
+      <br>
+      अपनी डिजिटल पहचान बनाओ 🔥
+    </p>
+
+    <br>
+
+    <a class="btn" href="#top" onclick="window.scrollTo(0,0)">
+      ⬆️ ऊपर जाएँ
+    </a>
+
+  </div>
+</section>
+
+
+<footer>
+  © 2026 BADAL OFFICIAL | All Rights Reserved
+</footer>
+
+
+<script>
+
+function generateIdea(){
+
+  const prompt = document.getElementById("prompt").value.trim();
+  const result = document.getElementById("result");
+
+  if(!prompt){
+    result.innerHTML = "⚠️ पहले अपना वीडियो Prompt लिखो।";
+    return;
+  }
+
+  result.innerHTML =
+    "✨ आपका वीडियो आइडिया तैयार है!<br><br>" +
+    "🎬 Scene: " + prompt +
+    "<br><br>" +
+    "💡 इसे AI Video Generator में इस्तेमाल कर सकते हो।";
+}
+
+</script>
+
 </body>
 </html>
